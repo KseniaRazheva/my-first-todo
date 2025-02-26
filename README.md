@@ -86,6 +86,12 @@ npm run dev
 ```
 git checkout -b nameNewVetki
 ```
+или 
+```
+git branch <name>
+git checkout <name>
+git push -u origin <name>
+```
 6) чтобы узнать на какой ветке находишься git branch текущая будет отмечена звездочкой *
 7) сделать коммит как обычно:
 ```

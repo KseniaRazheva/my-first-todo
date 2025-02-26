@@ -1,0 +1,10 @@
+/* цвет обычной звездочки */
+.star {
+	cursor: pointer;
+	color: gray;
+}
+
+/* цвет отмеченной звездочки */
+.star.active {
+	color: gold;
+}
