@@ -14,11 +14,23 @@ function renderTasks() {
             <span class="star">★</span>
         `;
 
+		// Обработчик событий для клика по делит
+		const deleteElement = li.querySelector(".deleteButton");
+		if (deleteElement) {
+			deleteElement.addEventListener("click", function () {
+				this.classList.toggle("active");
+				removeTask();
+			});
+		}
+
 		// Обработчик событий для клика по звездочке
-		li.querySelector(".star").addEventListener("click", function () {
-			this.classList.toggle("active");
-			saveTasks();
-		});
+		const starElement = li.querySelector(".star");
+		if (starElement) {
+			starElement.addEventListener("click", function () {
+				this.classList.toggle("active");
+				saveTasks();
+			});
+		}
 
 		taskList.appendChild(li);
 	});
@@ -33,14 +45,18 @@ function addTask() {
 		tasks.push(taskText);
 		taskInput.value = "";
 		renderTasks();
-		saveTasks(); // Сохраняем изменения после добавления задачи
+		saveTasks();
 	}
 }
 
 // 4 удаление задачи из списка дел
 function removeTask(index) {
-	tasks.splice(index, 1);
-	renderTasks();
+	tasks.splice(index, 1); // Удаляем элемент из массива tasks
+	renderTasks(); // Обновляем отображение списка
+	saveTasks(); // Сохраняем изменения в localStorage
+
+	console.log("Удаление задачи с индексом:", index);
+	console.log("Массив tasks после удаления:", tasks);
 }
 renderTasks();
 
@@ -48,6 +64,7 @@ renderTasks();
 function saveTasks() {
 	const tasks = [];
 	const taskList = document.getElementById("taskList");
+	if (taskList == null) return;
 	for (const task of taskList.children) {
 		tasks.push({
 			text: task.querySelector("span:first-child").textContent,
