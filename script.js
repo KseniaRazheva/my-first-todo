@@ -25,7 +25,7 @@ function renderTasks() {
 		if (deleteElement) {
 			deleteElement.addEventListener("click", function () {
 				this.classList.toggle("active");
-				removeTask();
+				removeTask(this.dataset.index);
 			});
 		}
 
@@ -112,18 +112,18 @@ function loadTasks() {
 }
 
 // 7 делегирование событий
-document.getElementById("taskList").addEventListener("click", function (event) {
-	const target = event.target;
-	if (target.classList.contains("star")) {
-		target.classList.toggle("active");
-		saveTasks();
-	} else if (target.tagName === "LI") {
-		target.classList.toggle("completed");
-		saveTasks();
-	} else if (target.classList.contains("deleteButton")) {
-		removeTask(target.dataset.index);
-	}
-});
+// document.getElementById("taskList").addEventListener("click", function (event) {
+// 	const target = event.target;
+// 	if (target.classList.contains("star")) {
+// 		target.classList.toggle("active");
+// 		saveTasks();
+// 	} else if (target.tagName === "LI") {
+// 		target.classList.toggle("completed");
+// 		saveTasks();
+// 	} else if (target.classList.contains("deleteButton")) {
+// 		removeTask(target.dataset.index);
+// 	}
+// });
 
 // Загрузка задач при загрузке страницы
 loadTasks();
@@ -146,15 +146,15 @@ function editTask(taskIndex) {
 	});
 }
 
-taskList.addEventListener("click", function (event) {
-	const target = event.target;
-	if (target.classList.contains("star")) {
-		target.classList.toggle("active");
-		saveTasks();
-	} else if (target.tagName === "LI") {
-		target.classList.toggle("completed");
-		saveTasks();
-	} else if (target.classList.contains("deleteButton")) {
-		removeTask(Number(target.dataset.index)); // Исправлено: преобразование в число
-	}
-});
+// taskList.addEventListener("click", function (event) {
+// 	const target = event.target;
+// 	if (target.classList.contains("star")) {
+// 		target.classList.toggle("active");
+// 		saveTasks();
+// 	} else if (target.tagName === "LI") {
+// 		target.classList.toggle("completed");
+// 		saveTasks();
+// 	} else if (target.classList.contains("deleteButton")) {
+// 		removeTask(Number(target.dataset.index)); // Исправлено: преобразование в число
+// 	}
+// });
