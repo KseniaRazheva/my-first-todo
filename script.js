@@ -1,5 +1,6 @@
 // 1) объявляется переменная tasks которая представляет собой массив. этот массив будет хранить список задач. изначально он пустой.
 let tasks = [];
+const taskList = document.getElementById("task-list");
 
 // 2) отображение задачи на странице
 function renderTasks() {
@@ -14,12 +15,17 @@ function renderTasks() {
             <span class="star">★</span>
         `;
 
+		const editButton = document.createElement("button");
+		editButton.textContent = "Редактировать";
+		editButton.classList.add("editButton");
+		li.appendChild(editButton);
+
 		// Обработчик событий для клика по делит
 		const deleteElement = li.querySelector(".deleteButton");
 		if (deleteElement) {
 			deleteElement.addEventListener("click", function () {
 				this.classList.toggle("active");
-				removeTask();
+				removeTask(this.dataset.index);
 			});
 		}
 
@@ -30,6 +36,18 @@ function renderTasks() {
 				this.classList.toggle("active");
 				saveTasks();
 			});
+		}
+
+		// Обработчик события для редактировать
+		const editElement = li.querySelector(".editButton");
+		if (editElement) {
+			editElement.addEventListener("click", function () {
+				//editTask(taskIndex); // taskIndex - индекс задачи в массиве tasks
+				editTask(index); // Исправлено: передаем index
+			});
+			// editButton.addEventListener("click", function () {
+			//  editTask(taskIndex); // taskIndex - индекс задачи в массиве tasks
+			// });
 		}
 
 		taskList.appendChild(li);
@@ -94,18 +112,49 @@ function loadTasks() {
 }
 
 // 7 делегирование событий
-document.getElementById("taskList").addEventListener("click", function (event) {
-	const target = event.target;
-	if (target.classList.contains("star")) {
-		target.classList.toggle("active");
-		saveTasks();
-	} else if (target.tagName === "LI") {
-		target.classList.toggle("completed");
-		saveTasks();
-	} else if (target.classList.contains("deleteButton")) {
-		removeTask(target.dataset.index);
-	}
-});
+// document.getElementById("taskList").addEventListener("click", function (event) {
+// 	const target = event.target;
+// 	if (target.classList.contains("star")) {
+// 		target.classList.toggle("active");
+// 		saveTasks();
+// 	} else if (target.tagName === "LI") {
+// 		target.classList.toggle("completed");
+// 		saveTasks();
+// 	} else if (target.classList.contains("deleteButton")) {
+// 		removeTask(target.dataset.index);
+// 	}
+// });
 
 // Загрузка задач при загрузке страницы
 loadTasks();
+
+function editTask(taskIndex) {
+	const taskItem = taskList.children[taskIndex]; // taskList - элемент <ul>, содержащий задачи
+	const taskText = tasks[taskIndex];
+
+	// Заменяем текст задачи на поле ввода
+	taskItem.innerHTML = `<input type="text" value="${taskText}">`;
+
+	const input = taskItem.querySelector("input");
+	input.focus();
+
+	// Добавляем обработчик событий для сохранения изменений
+	input.addEventListener("blur", function () {
+		tasks[taskIndex] = input.value;
+		saveTasks();
+		renderTasks();
+	});
+}
+
+// taskList.addEventListener("click", function (event) {
+// 	const target = event.target;
+// 	if (target.classList.contains("star")) {
+// 		target.classList.toggle("active");
+// 		saveTasks();
+// 	} else if (target.tagName === "LI") {
+// 		target.classList.toggle("completed");
+// 		saveTasks();
+// 	} else if (target.classList.contains("deleteButton")) {
+// 		removeTask(Number(target.dataset.index)); // Исправлено: преобразование в число
+// 	}
+// });
